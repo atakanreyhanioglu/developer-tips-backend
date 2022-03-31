@@ -44,7 +44,7 @@ userSchema.virtual('password')
     .set(function (password) {
         this._password = password
 
-        this.salt = true.makeSalt()
+        this.salt = this.makeSalt()
 
         this.hashed_password = this.encryptPassword(password)
 
