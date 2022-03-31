@@ -1,10 +1,12 @@
 const express = require('express')
 const cors = require('cors')
 const app = express()
+
+require('dotenv').config()
+const dbConnection = require('./database/index')
+
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
-const mongoose = require('mongoose')
-require('dotenv').config()
 app.use(morgan('dev'))
 
 
@@ -16,8 +18,7 @@ const authRoutes = require('./routes/auth.route')
 app.use(bodyParser.json())
 app.use('/api', authRoutes)
 
-
-
+dbConnection.mongoDB
 
 const port = process.env.PORT
 app.listen(port, () => console.log(`API is running on port ${port}`))
