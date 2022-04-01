@@ -68,6 +68,7 @@ userSchema.methods = {
         return Math.round(new Date().valueOf() * Math.random())
     },
     authenticate: function (plainText) {
+        console.log(this.hashed_password)
         return this.encryptPassword(plainText) === this.hashed_password
     }
 }

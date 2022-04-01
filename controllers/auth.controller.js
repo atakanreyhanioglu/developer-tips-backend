@@ -12,6 +12,29 @@ AWS.config.update({
 
 const ses = new AWS.SES({ apiVersion: '2010-12-01' });
 
+exports.login = (req, res) => {
+     const {email, password} = req.body
+     User.findOne({email}).exec((err, user) => {
+          if(err || !user) {
+               return res.status(400).json({
+                    error: 'User not found.'
+               })
+          }
+          if(!user.authenticate(password)) {
+               return res.status(400).json({
+                    error: 'Invalid password.'
+               })
+          }
+          const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET, {expiresIn: '7d'},err)
+          const {_id, name, email, role} = user
+
+          return res.status(200).json({
+               token, user: {_id, name, email, role}
+          })
+
+     })
+}
+
 exports.register = (req, res) => {
      // console.log('REGISTER CONTROLLER', req.body);
      const { name, email, password } = req.body;
