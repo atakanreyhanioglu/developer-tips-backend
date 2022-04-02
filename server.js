@@ -13,10 +13,11 @@ app.use(morgan('dev'))
 app.use(cors({"Access-Control-Allow-Origin": process.env.CLIENT_URL}))
 
 
-const authRoutes = require('./routes/auth.route')
+const routes = require('./routes/index')
 
 app.use(bodyParser.json())
-app.use('/api', authRoutes)
+
+app.use('/api', routes.authRoutes, routes.tipRoutes)
 
 dbConnection.mongoDB
 
