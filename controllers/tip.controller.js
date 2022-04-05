@@ -45,8 +45,9 @@ const tipController = {
     },
     delete: async (req, res) => {
         try {
-            const targetTip = await Tip.findOne({_id: req.params.id})
-            await targetTip.deleteOne()
+            await Tip.deleteOne({
+                _id: req.params.id
+            })
             return res.status(200).json({status: 'success'})
         }catch (e) {
             console.log(e)
